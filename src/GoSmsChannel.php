@@ -56,7 +56,7 @@ class GoSmsChannel
         }
 
         if ($recipient[0] == '+') {
-            $valid_mobile = substr($recipient,1);
+            $valid_mobile = substr($recipient, 1);
         }
 
         $params = [

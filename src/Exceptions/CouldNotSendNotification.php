@@ -36,10 +36,10 @@ class CouldNotSendNotification extends Exception
      *
      * @return static
      */
-    public static function smscRespondedWithAnError(DomainException $exception)
+    public static function exceptionGoSmsRespondedWithAnError(DomainException $exception)
     {
         return new static(
-            "smsc.ru responded with an error '{$exception->getCode()}: {$exception->getMessage()}'"
+            "gosms responded with an error '{$exception->getCode()}: {$exception->getMessage()}'"
         );
     }
 
@@ -50,8 +50,8 @@ class CouldNotSendNotification extends Exception
      *
      * @return static
      */
-    public static function couldNotCommunicateWithSmsc(Exception $exception)
+    public static function couldNotCommunicateWithGoSms(Exception $exception)
     {
-        return new static("The communication with smsc.ru failed. Reason: {$exception->getMessage()}");
+        return new static("The communication with gosms.com.my failed. Reason: {$exception->getMessage()}");
     }
 }

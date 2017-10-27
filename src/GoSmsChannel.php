@@ -46,11 +46,22 @@ class GoSmsChannel
         //     throw CouldNotSendNotification::contentLengthLimitExceeded();
         // }
         $message->content = bin2hex(iconv('UTF-8', 'UTF-16BE', $message->content));
+        
+        //the sms format must start with 6
+        $valid_mobile = '';
+        if($recipient[0] == '0')
+        {
+            $valid_mobile = '6'.$recipient;
+        }
+        if($recipient[0] == '+')
+        {
+            $valid_mobile = substr($recipient,1);
+        }
 
         $params = [
-            'hp'  => $recipient,
-            'mesg'     => $message->content,
-            'sender'  => $message->from,
+            'hp'        => $valid_mobile,
+            'mesg'      => $message->content,
+            'sender'    => $message->from,
         ];
 
         if ($message->sendAt instanceof \DateTimeInterface) {

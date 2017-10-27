@@ -35,7 +35,7 @@ class GoSmsChannelTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->gosms = M::mock(GoSmsApi::class, ['test', 'test', 'John_Doe']);
+        $this->gosms = M::mock(GoSmsApi::class, ['company', 'test', 'test', 'John_Doe']);
         $this->channel = new GoSmsChannel($this->gosms);
         $this->message = M::mock(GoSmsMessage::class);
     }
@@ -53,8 +53,8 @@ class GoSmsChannelTest extends \PHPUnit_Framework_TestCase
         $this->gosms->shouldReceive('send')->once()
             ->with(
                 [
-                    'phones'  => '+1234567890',
-                    'mes'     => 'hello',
+                    'hp'  => '60123456789',
+                    'mesg'     => 'hello',
                     'sender'  => 'John_Doe',
                 ]
             );
@@ -70,8 +70,8 @@ class GoSmsChannelTest extends \PHPUnit_Framework_TestCase
         $this->gosms->shouldReceive('send')->once()
             ->with(
                 [
-                    'phones'  => '+1234567890',
-                    'mes'     => 'hello',
+                    'hp'  => '60123456789',
+                    'mesg'     => 'hello',
                     'sender'  => 'John_Doe',
                     'time'    => '0'.self::$sendAt->getTimestamp(),
                 ]
@@ -95,7 +95,7 @@ class TestNotifiable
 {
     public function routeNotificationFor()
     {
-        return '+1234567890';
+        return '0123456789';
     }
 }
 

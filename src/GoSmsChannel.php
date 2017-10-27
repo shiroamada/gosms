@@ -45,7 +45,9 @@ class GoSmsChannel
         // if (mb_strlen($message->content) > 800) {
         //     throw CouldNotSendNotification::contentLengthLimitExceeded();
         // }
-        $message->content = bin2hex(iconv('UTF-8', 'UTF-16BE', $message->content));
+
+        $message->content = html_entity_decode($message->content, ENT_QUOTES, 'utf-8');
+        $message->content = urlencode($message->content);
         
         //the sms format must start with 6
         $valid_mobile = '';

@@ -17,18 +17,22 @@ class GoSmsApi
     protected $httpClient;
 
     /** @var string */
-    protected $login;
+    protected $company;
 
     /** @var string */
-    protected $secret;
+    protected $username;
+
+    /** @var string */
+    protected $password;
 
     /** @var string */
     protected $sender;
 
-    public function __construct($login, $secret, $sender)
+    public function __construct($company, $username, $password, $sender)
     {
-        $this->login = $login;
-        $this->secret = $secret;
+        $this->company = $company;
+        $this->username = $username;
+        $this->password = $password;
         $this->sender = $sender;
 
         $this->httpClient = new HttpClient([
@@ -47,11 +51,15 @@ class GoSmsApi
     public function send($params)
     {
         $base = [
-            'charset' => 'utf-8',
-            'login'   => $this->login,
-            'psw'     => $this->secret,
-            'sender'  => $this->sender,
-            'fmt'     => self::FORMAT_JSON,
+            'company'   => $this->company,
+            'user'      => $this->username,
+            'password'  => $this->password,
+            'gateway'   => 'L',
+            'mode'      => 'BUK',
+            'type'      => 'TX',
+            'charge'    => '0',
+            'maskid'    => '1',
+            'convert'   => '0'
         ];
 
         $params = array_merge($params, $base);
@@ -59,16 +67,15 @@ class GoSmsApi
         try {
 
             //gosms api
-            $message = bin2hex(iconv('UTF-8', 'UTF-16BE', $message));
+            
+            // $sendsms_url = "?company={$company}&user={$username}&password={$password}&gateway=L&mode=BUK&type=TX&hp={$valid_mobile}&mesg={$message}&charge=0&maskid=1&convert=0";
 
-            $sendsms_url = "?company={$company}&user={$username}&password={$password}&gateway=L&mode=BUK&type=TX&hp={$valid_mobile}&mesg={$message}&charge=0&maskid=1&convert=0";
+            // //$response = $client->request('GET', config('sms.credit_url').$checksms_url);
+            // $response = $client->request('GET', config('sms.send_url').$sendsms_url);
 
-            //$response = $client->request('GET', config('sms.credit_url').$checksms_url);
-            $response = $client->request('GET', config('sms.send_url').$sendsms_url);
+            // $stream = $response->getBody();
 
-            $stream = $response->getBody();
-
-            $data['sms_returnstatus'] = $stream->getContents();
+            // $data['sms_returnstatus'] = $stream->getContents();
             //.gosms api
 
             $response = $this->httpClient->get($this->apiUrl, ['form_params' => $params]);

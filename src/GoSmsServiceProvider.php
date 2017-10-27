@@ -11,7 +11,7 @@ class GoSmsServiceProvider extends ServiceProvider
         $this->app->singleton(GoSmsApi::class, function () {
             $config = config('services.gosms');
 
-            return new GoSmsApi($config['login'], $config['secret'], $config['sender']);
+            return new GoSmsApi($config['company'], $config['username'], $config['password'], $config['sender']);
         });
     }
 }

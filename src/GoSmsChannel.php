@@ -42,13 +42,14 @@ class GoSmsChannel
 
     protected function sendMessage($recipient, GoSmsMessage $message)
     {
-        if (mb_strlen($message->content) > 800) {
-            throw CouldNotSendNotification::contentLengthLimitExceeded();
-        }
+        // if (mb_strlen($message->content) > 800) {
+        //     throw CouldNotSendNotification::contentLengthLimitExceeded();
+        // }
+        $message->content = bin2hex(iconv('UTF-8', 'UTF-16BE', $message->content));
 
         $params = [
-            'phones'  => $recipient,
-            'mes'     => $message->content,
+            'hp'  => $recipient,
+            'mesg'     => $message->content,
             'sender'  => $message->from,
         ];
 

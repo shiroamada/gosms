@@ -48,14 +48,14 @@ class GoSmsChannel
 
         $message->content = html_entity_decode($message->content, ENT_QUOTES, 'utf-8');
         $message->content = urlencode($message->content);
-        
+
         //the sms format must start with 6
         $valid_mobile = '';
-        if($recipient[0] == '0'){
+        if ($recipient[0] == '0') {
             $valid_mobile = '6'.$recipient;
         }
 
-        if($recipient[0] == '+'){
+        if ($recipient[0] == '+') {
             $valid_mobile = substr($recipient,1);
         }
 

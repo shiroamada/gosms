@@ -35,7 +35,7 @@ class GoSmsApi
         $this->password = $password;
         $this->sender = $sender;
 
-         $this->httpClient = new HttpClient([
+        $this->httpClient = new HttpClient([
             'base_uri' =>  $this->apiUrl,
             'timeout' => 2.0,
         ]);
@@ -50,12 +50,9 @@ class GoSmsApi
      */
     public function send($params)
     {
-
         try {
-
             $sendsms_url = "?company={$this->company}&user={$this->username}&password={$this->password}&gateway=L&mode=BUK&type=TX&hp={$params['hp']}&mesg={$params['mesg']}&charge=0&maskid=1&convert=0";
 
-        
             $response = $this->httpClient->request('GET', $this->apiUrl.$sendsms_url);
             
             $stream = $response->getBody();

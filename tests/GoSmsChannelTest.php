@@ -3,8 +3,8 @@
 namespace NotificationChannel\GoSms\Tests;
 
 use Mockery as M;
-use Illuminate\Notifications\Notification;
 use NotificationChannels\GoSms\GoSmsApi;
+use Illuminate\Notifications\Notification;
 use NotificationChannels\GoSms\GoSmsChannel;
 use NotificationChannels\GoSms\GoSmsMessage;
 use NotificationChannels\GoSms\Exceptions\CouldNotSendNotification;

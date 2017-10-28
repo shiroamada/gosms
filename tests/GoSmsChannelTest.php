@@ -35,7 +35,20 @@ class GoSmsChannelTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->gosms = M::mock(GoSmsApi::class, ['company', 'test', 'test', 'John_Doe']);
+        $config = [
+            'company'   => 'company',
+            'username'  => 'test',
+            'password'  => 'test',
+            'sender'    => 'John_Doe',
+            'gateway'   => 'L',
+            'mode'      => 'BUK',
+            'type'      => 'TX',
+            'charge'    => '0',
+            'maskid'    => '1',
+            'convert'   => '0'
+        ];
+
+        $this->gosms = M::mock(GoSmsApi::class, $config);
         $this->channel = new GoSmsChannel($this->gosms);
         $this->message = M::mock(GoSmsMessage::class);
     }

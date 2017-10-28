@@ -9,14 +9,14 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/laravel-notification-channels/smsc-ru/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/shiroamada/gosms/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/shiroamada/gosms.svg?style=flat-square)](https://packagist.org/packages/shiroamada/gosms)
 
-This package makes it easy to send notifications using [gosms.com.my](//gosms.com.my) with Laravel 5.3+.
+This package makes it easy to send notifications using [https://gosms.com.my](https://gosms.com.my/gosms/index.aspx) with Laravel 5.3+.
 
-Code Reference laravel-notification-channels/smsc-ru
+Code Reference from laravel-notification-channels/smsc-ru
 
 ## Contents
 
 - [Installation](#installation)
-    - [Setting up the SmscRu service](#setting-up-the-gosms-service)
+    - [Setting up the GoSMS service](#setting-up-the-gosms-service)
 - [Usage](#usage)
     - [Available Message methods](#available-message-methods)
 - [Changelog](#changelog)
@@ -52,10 +52,16 @@ Add your gosms.com.my login, secret key (hashed password) and default sender nam
 // config/services.php
 ...
 'gosms' => [
-    'company'  => env('GOSMS_COMPANY'),
+    'company'   => env('GOSMS_COMPANY'),
     'username'  => env('GOSMS_USERNAME'),
     'password'  => env('GOSMS_PASSWORD'),
-    'sender' => 'John_Doe'
+    'sender'    => env('GOSMS_SENDER'),
+    'gateway'   => env('GOSMS_GATEWAY', 'L'),
+    'mode'      => env('GOSMS_MODE', 'BUK'),
+    'type'      => env('GOSMS_TYPE', 'TX'),
+    'charge'    => env('GOSMS_CHARGE', '0'),
+    'maskid'    => env('GOSMS_MASKID', '1'),
+    'convert'   => env('GOSMS_CONVERT', '0')
 ],
 ...
 ```
@@ -88,7 +94,7 @@ In your notifiable model, make sure to include a routeNotificationForGoSms() met
 ```php
 public function routeNotificationForGoSms()
 {
-    return $this->mobile;
+    return $this->mobile; //depend what is your db field
 }
 ```
 

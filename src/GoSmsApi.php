@@ -56,7 +56,6 @@ class GoSmsApi
         $this->maskid = $config['maskid'];
         $this->convert = $config['convert'];
 
-
         $this->httpClient = new HttpClient([
             'base_uri' =>  $this->apiUrl,
             'timeout' => 2.0,

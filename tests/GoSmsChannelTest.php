@@ -45,7 +45,7 @@ class GoSmsChannelTest extends \PHPUnit_Framework_TestCase
             'type'      => 'TX',
             'charge'    => '0',
             'maskid'    => '1',
-            'convert'   => '0'
+            'convert'   => '0',
         ];
 
         $this->gosms = M::mock(GoSmsApi::class, $config);

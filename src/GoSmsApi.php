@@ -39,22 +39,22 @@ class GoSmsApi
 
     /** @var string */
     protected $maskid;
-    
+
     /** @var string */
     protected $convert;
 
     public function __construct($config)
     {
-        $this->company  = $config['company'];
+        $this->company = $config['company'];
         $this->username = $config['username'];
         $this->password = $config['password'];
-        $this->sender   = $config['sender'];
-        $this->gateway  = $config['gateway'];
-        $this->mode     = $config['mode'];
-        $this->type     = $config['type'];
-        $this->charge   = $config['charge'];
-        $this->maskid   = $config['maskid'];
-        $this->convert  = $config['convert'];
+        $this->sender = $config['sender'];
+        $this->gateway = $config['gateway'];
+        $this->mode = $config['mode'];
+        $this->type = $config['type'];
+        $this->charge = $config['charge'];
+        $this->maskid = $config['maskid'];
+        $this->convert = $config['convert'];
 
 
         $this->httpClient = new HttpClient([

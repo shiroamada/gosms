@@ -2,12 +2,12 @@
 
 namespace NotificationChannel\GoSms\Tests;
 
-use Mockery as M;
-use NotificationChannels\GoSms\GoSmsApi;
 use Illuminate\Notifications\Notification;
+use Mockery as M;
+use NotificationChannels\GoSms\Exceptions\CouldNotSendNotification;
+use NotificationChannels\GoSms\GoSmsApi;
 use NotificationChannels\GoSms\GoSmsChannel;
 use NotificationChannels\GoSms\GoSmsMessage;
-use NotificationChannels\GoSms\Exceptions\CouldNotSendNotification;
 
 class GoSmsChannelTest extends \PHPUnit_Framework_TestCase
 {

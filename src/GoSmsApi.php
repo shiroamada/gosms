@@ -98,7 +98,7 @@ class GoSmsApi
         } catch (DomainException $exception) {
             throw CouldNotSendNotification::exceptionGoSmsRespondedWithAnError($exception);
         } catch (\Exception $exception) {
-            throw CouldNotSendNotification::couldNotCommunicateWithGoSms($exception);
+            throw CouldNotSendNotification::couldNotCommunicateWithGoSms($exception, $sendsms_url);
         }
     }
 }

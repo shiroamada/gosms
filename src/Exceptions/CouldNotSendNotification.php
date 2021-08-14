@@ -50,8 +50,8 @@ class CouldNotSendNotification extends Exception
      *
      * @return static
      */
-    public static function couldNotCommunicateWithGoSms(Exception $exception)
+    public static function couldNotCommunicateWithGoSms(Exception $exception, $request)
     {
-        return new static("The communication with gosms.com.my failed. Reason: {$exception->getMessage()}");
+        return new static("The communication with gosms.com.my failed. Reason: {$exception->getMessage()}, Request: {$request}");
     }
 }

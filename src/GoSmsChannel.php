@@ -63,7 +63,7 @@ class GoSmsChannel
         $params = [
             'hp'        => $valid_mobile,
             'mesg'      => $message->content,
-            'mesg_id'   => openssl_random_pseudo_bytes(50)
+            'mesg_id'   => bin2hex(random_bytes(20))
         ];
 
         if ($message->sendAt instanceof \DateTimeInterface) {

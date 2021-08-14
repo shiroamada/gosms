@@ -79,26 +79,20 @@ class GoSmsApi
     {
         try {
             $sendsms_url = "?company={$this->company}&user={$this->username}&password={$this->password}&gateway={$this->gateway}";
-            $sendsms_url += "&mode={$this->mode}&type={$this->type}&hp={$params['hp']}&mesg={$params['mesg']}&mesg_id={$params['mesg_id']}";
-            $sendsms_url += "&charge={$this->charge}&maskid={$this->maskid}&convert={$this->convert}&url={$this->url}&verifypwd={$this->verifypwd}";
+            $sendsms_url .= "&mode={$this->mode}&type={$this->type}&hp={$params['hp']}&mesg={$params['mesg']}&mesg_id={$params['mesg_id']}";
+            $sendsms_url .= "&charge={$this->charge}&maskid={$this->maskid}&convert={$this->convert}&url={$this->url}&verifypwd={$this->verifypwd}";
 
             $response = $this->httpClient->request('GET', $this->apiUrl.$sendsms_url);
-
             $stream = $response->getBody();
-
             $content = $stream->getContents();
 
-            $response = json_decode((string) $response->getBody(), true);
-
-            if ($content == 'E01') {
-                throw new \Exception('E01');
+            if ($content != '1') {
+                throw CouldNotSendNotification::exceptionGoSmsRespondedWithAnError($content);
             }
 
-            return $response;
-        } catch (DomainException $exception) {
-            throw CouldNotSendNotification::exceptionGoSmsRespondedWithAnError($exception);
+            return $content;
         } catch (\Exception $exception) {
-            throw CouldNotSendNotification::couldNotCommunicateWithGoSms($exception, $sendsms_url);
+            throw CouldNotSendNotification::couldNotCommunicateWithGoSms($exception, $this->apiUrl.$sendsms_url);
         }
     }
 }

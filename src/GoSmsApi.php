@@ -26,35 +26,41 @@ class GoSmsApi
     protected $password;
 
     /** @var string */
-    protected $sender;
+    protected $gateway;
 
     /** @var string */
-    protected $gateway;
+    protected $mode;
 
     /** @var string */
     protected $type;
 
     /** @var string */
-    protected $charge;
+    protected $maskid;
 
     /** @var string */
-    protected $maskid;
+    protected $charge;
 
     /** @var string */
     protected $convert;
 
+    /** @var string */
+    protected $url;
+
+    /** @var string */
+    protected $verifypwd;
+
     public function __construct($config)
     {
-        $this->company = $config['company'];
-        $this->username = $config['username'];
-        $this->password = $config['password'];
-        $this->sender = $config['sender'];
-        $this->gateway = $config['gateway'];
-        $this->mode = $config['mode'];
-        $this->type = $config['type'];
-        $this->charge = $config['charge'];
-        $this->maskid = $config['maskid'];
-        $this->convert = $config['convert'];
+        $this->company   = $config['company'];
+        $this->username  = $config['username'];
+        $this->password  = $config['password'];
+        $this->gateway   = $config['gateway'];
+        $this->mode      = $config['mode'];
+        $this->type      = $config['type'];
+        $this->charge    = $config['charge'];
+        $this->maskid    = $config['maskid'];
+        $this->url       = $config['url'];
+        $this->verifypwd = $config['verifypwd'];
 
         $this->httpClient = new HttpClient([
             'base_uri' =>  $this->apiUrl,
@@ -72,25 +78,21 @@ class GoSmsApi
     public function send($params)
     {
         try {
-            $sendsms_url = "?company={$this->company}&user={$this->username}&password={$this->password}&gateway={$this->gateway}&mode={$this->mode}&type={$this->type}&hp={$params['hp']}&mesg={$params['mesg']}&charge={$this->charge}&maskid={$this->maskid}&convert={$this->convert}";
+            $sendsms_url = "?company={$this->company}&user={$this->username}&password={$this->password}&gateway={$this->gateway}";
+            $sendsms_url .= "&mode={$this->mode}&type={$this->type}&hp={$params['hp']}&mesg={$params['mesg']}&mesg_id={$params['mesg_id']}";
+            $sendsms_url .= "&charge={$this->charge}&maskid={$this->maskid}&convert={$this->convert}&url={$this->url}&verifypwd={$this->verifypwd}";
 
             $response = $this->httpClient->request('GET', $this->apiUrl.$sendsms_url);
-
             $stream = $response->getBody();
-
             $content = $stream->getContents();
 
-            $response = json_decode((string) $response->getBody(), true);
-
-            if ($content == 'E01') {
-                throw new \Exception('E01');
+            if ($content != '1') {
+                throw CouldNotSendNotification::exceptionGoSmsRespondedWithAnError($content);
             }
 
-            return $response;
-        } catch (DomainException $exception) {
-            throw CouldNotSendNotification::exceptionGoSmsRespondedWithAnError($exception);
+            return $content;
         } catch (\Exception $exception) {
-            throw CouldNotSendNotification::couldNotCommunicateWithGoSms($exception);
+            throw CouldNotSendNotification::couldNotCommunicateWithGoSms($exception, $this->apiUrl.$sendsms_url);
         }
     }
 }

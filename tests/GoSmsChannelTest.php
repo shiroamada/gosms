@@ -1,6 +1,6 @@
 <?php
 
-namespace NotificationChannel\GoSms\Tests;
+namespace NotificationChannels\GoSms\Tests;
 
 use Illuminate\Notifications\Notification;
 use Mockery as M;
@@ -8,8 +8,9 @@ use NotificationChannels\GoSms\Exceptions\CouldNotSendNotification;
 use NotificationChannels\GoSms\GoSmsApi;
 use NotificationChannels\GoSms\GoSmsChannel;
 use NotificationChannels\GoSms\GoSmsMessage;
+use PHPUnit\Framework\TestCase;
 
-class GoSmsChannelTest extends \PHPUnit_Framework_TestCase
+class GoSmsChannelTest extends TestCase
 {
     /**
      * @var GoSmsApi
@@ -31,7 +32,7 @@ class GoSmsChannelTest extends \PHPUnit_Framework_TestCase
      */
     public static $sendAt;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -53,7 +54,7 @@ class GoSmsChannelTest extends \PHPUnit_Framework_TestCase
         $this->message = M::mock(GoSmsMessage::class);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         M::close();
 

@@ -60,20 +60,6 @@ class GoSmsMessage
     }
 
     /**
-     * Set the phone number or sender name the message should be sent from.
-     *
-     * @param  string  $from
-     *
-     * @return $this
-     */
-    public function from($from)
-    {
-        $this->from = $from;
-
-        return $this;
-    }
-
-    /**
      * Set the time the message should be sent.
      *
      * @param  \DateTimeInterface|null  $sendAt

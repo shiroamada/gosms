@@ -32,7 +32,7 @@ class CouldNotSendNotification extends Exception
         'E22' => 'Sender IP not allowed',
         'E23' => '3Series shortcode promo message is not allowed for MODE=BUK',
         'E24' => 'Symbol not supported: `~[]{}',
-        'E99' => 'Internal Error'
+        'E99' => 'Internal Error',
     ];
 
     /**
@@ -61,13 +61,12 @@ class CouldNotSendNotification extends Exception
      * Thrown when we're unable to communicate with smsc.ru.
      *
      * @param  DomainException  $exception
-     *
      * @return static
      */
     public static function exceptionGoSmsRespondedWithAnError($errorCode)
     {
         return new static(
-            "gosms responded with an error '{$errorCode} : " . self::$errorDescriptions[$errorCode] . "'"
+            "gosms responded with an error '{$errorCode} : ".self::$errorDescriptions[$errorCode]."'"
         );
     }
 
@@ -75,7 +74,6 @@ class CouldNotSendNotification extends Exception
      * Thrown when we're unable to communicate with smsc.ru.
      *
      * @param  Exception  $exception
-     *
      * @return static
      */
     public static function couldNotCommunicateWithGoSms(Exception $exception, $request)

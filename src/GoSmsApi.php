@@ -2,7 +2,6 @@
 
 namespace NotificationChannels\GoSms;
 
-use DomainException;
 use GuzzleHttp\Client as HttpClient;
 use NotificationChannels\GoSms\Exceptions\CouldNotSendNotification;
 
@@ -51,15 +50,15 @@ class GoSmsApi
 
     public function __construct($config)
     {
-        $this->company   = $config['company'];
-        $this->username  = $config['username'];
-        $this->password  = $config['password'];
-        $this->gateway   = $config['gateway'];
-        $this->mode      = $config['mode'];
-        $this->type      = $config['type'];
-        $this->charge    = $config['charge'];
-        $this->maskid    = $config['maskid'];
-        $this->url       = $config['url'];
+        $this->company = $config['company'];
+        $this->username = $config['username'];
+        $this->password = $config['password'];
+        $this->gateway = $config['gateway'];
+        $this->mode = $config['mode'];
+        $this->type = $config['type'];
+        $this->charge = $config['charge'];
+        $this->maskid = $config['maskid'];
+        $this->url = $config['url'];
         $this->verifypwd = $config['verifypwd'];
 
         $this->httpClient = new HttpClient([
@@ -70,7 +69,6 @@ class GoSmsApi
 
     /**
      * @param  array  $params
-     *
      * @return string
      *
      * @throws CouldNotSendNotification

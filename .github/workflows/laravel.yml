@@ -1,0 +1,52 @@
+name: Laravel
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 15
+      fail-fast: false
+      matrix:
+        laravel-version: ['5.3.*','5.4.*','5.5.*','5.6.*','5.7.*','5.8.*', '^6.0', '^7.0', '^8.0']
+        php-version: ['7.2', '7.3']
+        exclude:
+          - laravel-version: '5.8.*'
+            php-version: '8.0'
+          - laravel-version: '5.8.*'
+            php-version: '8.1'
+          - laravel-version: '^6.0'
+            php-version: '8.1'
+          - laravel-version: '^7.0'
+            php-version: '8.1'
+          - laravel-version: '^8.0'
+            php-version: '7.2'
+    name: PHP ${{ matrix.php-version }} on Laravel ${{ matrix.laravel-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-version }}
+          extension-csv: mbstring, xdebug
+          coverage: xdebug
+      - name: Install dependencies
+        run: |
+          composer require --no-update --no-interaction "illuminate/support:${{ matrix.laravel-version }}"
+          composer update --no-interaction --prefer-dist --no-suggest
+      - name: Lint composer.json
+        run: composer validate
+      - name: Run PHPUnit Tests
+        run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+      - name: Run Tests
+        run: composer test
+      - name: Report results to Scrutinizer (https://scrutinizer-ci.com/)
+        run: |
+          wget https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar code-coverage:upload --access-token ${{ secrets.SCRUTINIZER_ACCESS_TOKEN }} --format=php-clover ./build/logs/clover.xml

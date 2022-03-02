@@ -40,6 +40,11 @@ class GoSmsChannel
         $this->sendMessage($to, $message);
     }
 
+    /**
+     * @param $recipient
+     * @param GoSmsMessage $message
+     * @throws CouldNotSendNotification
+     */
     protected function sendMessage($recipient, GoSmsMessage $message)
     {
         $message->content = html_entity_decode($message->content, ENT_QUOTES, 'utf-8');
@@ -62,8 +67,7 @@ class GoSmsChannel
 
         $params = [
             'hp'        => $valid_mobile,
-            'mesg'      => $message->content,
-            'mesg_id'   => bin2hex(random_bytes(20))
+            'mesg'      => $message->content
         ];
 
         if ($message->sendAt instanceof \DateTimeInterface) {

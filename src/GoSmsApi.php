@@ -71,7 +71,7 @@ class GoSmsApi
     /**
      * @param  array  $params
      *
-     * @return array
+     * @return string
      *
      * @throws CouldNotSendNotification
      */
@@ -79,7 +79,7 @@ class GoSmsApi
     {
         try {
             $sendsms_url = "?company={$this->company}&user={$this->username}&password={$this->password}&gateway={$this->gateway}";
-            $sendsms_url .= "&mode={$this->mode}&type={$this->type}&hp={$params['hp']}&mesg={$params['mesg']}&mesg_id={$params['mesg_id']}";
+            $sendsms_url .= "&mode={$this->mode}&type={$this->type}&hp={$params['hp']}&mesg={$params['mesg']}&mesg_id=".bin2hex(random_bytes(20));
             $sendsms_url .= "&charge={$this->charge}&maskid={$this->maskid}&convert={$this->convert}&url={$this->url}&verifypwd={$this->verifypwd}";
 
             $response = $this->httpClient->request('GET', $this->apiUrl.$sendsms_url);

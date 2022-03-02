@@ -5,13 +5,6 @@ namespace NotificationChannels\GoSms;
 class GoSmsMessage
 {
     /**
-     * The phone number the message should be sent from.
-     *
-     * @var string
-     */
-    public $from = '';
-
-    /**
      * The message content.
      *
      * @var string

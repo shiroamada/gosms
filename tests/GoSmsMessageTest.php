@@ -32,14 +32,6 @@ class GoSmsMessageTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_the_from()
-    {
-        $message = (new GoSmsMessage())->from('John_Doe');
-
-        $this->assertEquals('John_Doe', $message->from);
-    }
-
-    /** @test */
     public function it_can_set_the_send_at()
     {
         $sendAt = date_create();

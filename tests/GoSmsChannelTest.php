@@ -1,7 +1,8 @@
 <?php
 
-namespace NotificationChannels\GoSms\Tests;
+namespace NotificationChannels\GoSms\Test;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Mockery as M;
 use NotificationChannels\GoSms\Exceptions\CouldNotSendNotification;
@@ -16,11 +17,6 @@ class GoSmsChannelTest extends TestCase
      * @var GoSmsApi
      */
     private $gosms;
-
-    /**
-     * @var GoSmsMessage
-     */
-    private $message;
 
     /**
      * @var GoSmsChannel
@@ -40,13 +36,13 @@ class GoSmsChannelTest extends TestCase
             'company'   => 'company',
             'username'  => 'test',
             'password'  => 'test',
-            'sender'    => 'John_Doe',
             'gateway'   => 'L',
             'mode'      => 'BUK',
             'type'      => 'TX',
             'charge'    => '0',
             'maskid'    => '1',
-            'convert'   => '0',
+            'url'       => '0',
+            'verifypwd' => '0',
         ];
 
         $this->gosms = M::mock(GoSmsApi::class, $config);
@@ -62,14 +58,13 @@ class GoSmsChannelTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_a_notification()
+    public function it_can_send_a_notification(): void
     {
         $this->gosms->shouldReceive('send')->once()
             ->with(
                 [
-                    'hp'  => '60123456789',
-                    'mesg'     => 'hello',
-                    'sender'  => 'John_Doe',
+                    'hp' => '60123456789',
+                    'mesg' => 'hello',
                 ]
             );
 
@@ -77,17 +72,16 @@ class GoSmsChannelTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_a_deferred_notification()
+    public function it_can_send_a_deferred_notification(): void
     {
         self::$sendAt = new \DateTime();
 
         $this->gosms->shouldReceive('send')->once()
             ->with(
                 [
-                    'hp'  => '60123456789',
-                    'mesg'     => 'hello',
-                    'sender'  => 'John_Doe',
-                    'time'    => '0'.self::$sendAt->getTimestamp(),
+                    'hp' => '60123456789',
+                    'mesg' => 'hello',
+                    'time' => '0'.self::$sendAt->getTimestamp(),
                 ]
             );
 
@@ -100,22 +94,26 @@ class GoSmsChannelTest extends TestCase
         $this->expectException(CouldNotSendNotification::class);
 
         $this->channel->send(
-            new TestNotifiableWithoutRouteNotificationForSmscru(), new TestNotification()
+            new TestNotifiableWithoutRouteNotificationForGoSms(), new TestNotification()
         );
     }
 }
 
 class TestNotifiable
 {
-    public function routeNotificationFor()
+    use Notifiable;
+
+    // Laravel v5.6+ passes the notification instance here
+    // So we need to add `Notification $notification` argument to check it when this project stops supporting < 5.6
+    public function routeNotificationForGoSms()
     {
         return '0123456789';
     }
 }
 
-class TestNotifiableWithoutRouteNotificationForSmscru extends TestNotifiable
+class TestNotifiableWithoutRouteNotificationForGoSms extends TestNotifiable
 {
-    public function routeNotificationFor()
+    public function routeNotificationForGoSms()
     {
         return false;
     }
@@ -125,7 +123,7 @@ class TestNotification extends Notification
 {
     public function toGoSms()
     {
-        return GoSmsMessage::create('hello')->from('John_Doe');
+        return GoSmsMessage::create('hello');
     }
 }
 
@@ -134,7 +132,6 @@ class TestNotificationWithSendAt extends Notification
     public function toGoSms()
     {
         return GoSmsMessage::create('hello')
-            ->from('John_Doe')
             ->sendAt(GoSmsChannelTest::$sendAt);
     }
 }

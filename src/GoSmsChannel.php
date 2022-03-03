@@ -21,7 +21,7 @@ class GoSmsChannel
      * @param  mixed  $notifiable
      * @param  \Illuminate\Notifications\Notification  $notification
      *
-     * @throws  \NotificationChannels\GoSms\Exceptions\CouldNotSendNotification
+     * @throws \NotificationChannels\GoSms\Exceptions\CouldNotSendNotification
      */
     public function send($notifiable, Notification $notification)
     {
@@ -42,7 +42,8 @@ class GoSmsChannel
 
     /**
      * @param $recipient
-     * @param GoSmsMessage $message
+     * @param  GoSmsMessage  $message
+     *
      * @throws CouldNotSendNotification
      */
     protected function sendMessage($recipient, GoSmsMessage $message)
@@ -67,7 +68,7 @@ class GoSmsChannel
 
         $params = [
             'hp'        => $valid_mobile,
-            'mesg'      => $message->content
+            'mesg'      => $message->content,
         ];
 
         if ($message->sendAt instanceof \DateTimeInterface) {

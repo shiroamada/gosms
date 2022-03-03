@@ -21,8 +21,7 @@ class GoSmsMessage
     /**
      * Create a new message instance.
      *
-     * @param  string $content
-     *
+     * @param  string  $content
      * @return static
      */
     public static function create($content = '')
@@ -42,7 +41,6 @@ class GoSmsMessage
      * Set the message content.
      *
      * @param  string  $content
-     *
      * @return $this
      */
     public function content($content)
@@ -56,7 +54,6 @@ class GoSmsMessage
      * Set the time the message should be sent.
      *
      * @param  \DateTimeInterface|null  $sendAt
-     *
      * @return $this
      */
     public function sendAt(\DateTimeInterface $sendAt = null)

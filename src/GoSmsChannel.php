@@ -25,7 +25,23 @@ class GoSmsChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        $to = $notifiable->routeNotificationFor('gosms');
+        // Resolve the recipient using the notifiable's route method with
+        // backward compatibility for signatures without the notification param.
+        $to = null;
+        $method = 'routeNotificationForGoSms';
+
+        if (method_exists($notifiable, $method)) {
+            try {
+                $ref = new \ReflectionMethod($notifiable, $method);
+                $to = $ref->getNumberOfParameters() > 0
+                    ? $notifiable->{$method}($notification)
+                    : $notifiable->{$method}();
+            } catch (\ReflectionException $e) {
+                $to = $notifiable->routeNotificationFor('gosms', $notification);
+            }
+        } else {
+            $to = $notifiable->routeNotificationFor('gosms', $notification);
+        }
 
         if (empty($to)) {
             throw CouldNotSendNotification::missingRecipient();

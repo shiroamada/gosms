@@ -1,4 +1,4 @@
-# GoSms notifications channel for Laravel 5.3+
+# GoSms notifications channel for Laravel 5.3 - 11
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/shiroamada/gosms.svg?style=flat-square)](https://packagist.org/packages/shiroamada/gosms)
@@ -9,7 +9,7 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/laravel-notification-channels/smsc-ru/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/shiroamada/gosms/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/shiroamada/gosms.svg?style=flat-square)](https://packagist.org/packages/shiroamada/gosms)
 
-This package makes it easy to send notifications using [https://gosms.com.my](https://gosms.com.my/gosms/index.aspx) with Laravel 5.3+.
+This package makes it easy to send notifications using [https://gosms.com.my](https://gosms.com.my/gosms/index.aspx) with Laravel 5.3 through 11.
 
 Code Reference from laravel-notification-channels/smsc-ru
 
@@ -89,10 +89,10 @@ class AccountApproved extends Notification
 }
 ```
 
-In your notifiable model, make sure to include a routeNotificationForGoSms() method, which return the phone number.
+In your notifiable model, make sure to include a `routeNotificationForGoSms()` method, which returns the phone number. Newer Laravel versions pass the `Notification` instance as an optional argument, so this signature is broadly compatible:
 
 ```php
-public function routeNotificationForGoSms()
+public function routeNotificationForGoSms($notification = null)
 {
     return $this->mobile; //depend what is your db field
 }

@@ -24,6 +24,11 @@ class GoSmsChannelTest extends TestCase
     private $channel;
 
     /**
+     * @var GoSmsMessage
+     */
+    private $message;
+
+    /**
      * @var \DateTime
      */
     public static $sendAt;
@@ -105,7 +110,7 @@ class TestNotifiable
 
     // Laravel v5.6+ passes the notification instance here
     // So we need to add `Notification $notification` argument to check it when this project stops supporting < 5.6
-    public function routeNotificationForGoSms()
+    public function routeNotificationForGoSms($notification = null)
     {
         return '0123456789';
     }
@@ -113,7 +118,7 @@ class TestNotifiable
 
 class TestNotifiableWithoutRouteNotificationForGoSms extends TestNotifiable
 {
-    public function routeNotificationForGoSms()
+    public function routeNotificationForGoSms($notification = null)
     {
         return false;
     }

@@ -55,14 +55,12 @@ class GoSmsApi
         $this->password = $config['password'];
         $this->gateway = $config['gateway'];
         $this->mode = $config['mode'];
-    $this->type = $config['type'];
+        $this->type = $config['type'];
         $this->charge = $config['charge'];
         $this->maskid = $config['maskid'];
-    // Optional conversion flag; default to '0' when not provided
-    $this->convert = isset($config['convert']) ? $config['convert'] : '0';
-        $this->url = $config['url'];
-        $this->verifypwd = $config['verifypwd'];
-
+        // Optional conversion flag; default to '0' when not provided
+        $this->convert = isset($config['convert']) ? $config['convert'] : '0';
+        
         $this->httpClient = new HttpClient([
             'base_uri' =>  $this->apiUrl,
             'timeout' => 2.0,
